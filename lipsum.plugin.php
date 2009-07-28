@@ -85,7 +85,7 @@ class Lipsum extends Plugin
                 $this->make_post( $user, $time = $time - rand(3600, 3600*36) );
 			}
 
-			Session::notice('Created 20 sample posts with random comments.');
+			Session::notice("Created {$num_posts} sample posts with random comments.");
 		}
 	}
 
