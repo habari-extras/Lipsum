@@ -1,5 +1,5 @@
 <?php
-
+namespace Habari;
 	class Lipsum extends Plugin {
 
 		// ringmaster registered this API key, if you have any questions
@@ -150,7 +150,7 @@
 				'status' => $this->get_post_status(),
 				'content_type' => Post::type('entry'),
 				'tags' => $this->get_post_tags(),
-				'pubdate' => HabariDateTime::date_create( $time ),
+				'pubdate' => DateTime::date_create( $time ),
 			) );
 
 			$post->info->lipsum = true;
@@ -185,7 +185,7 @@
 				'content' => $this->get_comment_content(),
 				'status' => $this->get_comment_status(),
 				'type' => Comment::COMMENT,
-				'date' => HabariDateTime::date_create( $time ),
+				'date' => DateTime::date_create( $time ),
 			) );
 
 			$comment->info->lipsum = true;
@@ -387,7 +387,7 @@
 				$results = RemoteRequest::get_contents( $url );
 
 				// parse the xml
-				$xml = new SimpleXMLElement( $results );
+				$xml = new \SimpleXMLElement( $results );
 
 				$photos = array();
 				foreach ( $xml->photos->photo as $photo ) {
@@ -422,7 +422,7 @@
 			// pick out the style we'll use for this one
 			$style = $styles[ array_rand( $styles ) ];
 
-			$thumb_html = '<a href="' . $thumb['url'] . '" title="' . Utils::htmlspecialchars( $thumb['title'] ) . '" ' . $style . '><img src="' . $thumb['img_url'] . '"></a>';
+			$thumb_html = '<a href="' . $thumb['url'] . '" title="' . Utils::htmlspecialchars( $thumb['title'] ) . '" ' . $style . '><img src="' . $thumb['img_url'] . '" alt="' . $thumb['title'] . '"></a>';
 
 			return $thumb_html;
 
