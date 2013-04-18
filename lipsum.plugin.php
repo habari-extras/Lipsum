@@ -22,8 +22,10 @@ namespace Habari;
 			// remove all the posts
 			$this->update_num_posts( 0 );
 
-			// delete the option
+			// delete the options
 			Options::delete( 'lipsum__num_posts' );
+			Options::delete( 'lipsum__num_comments' );
+			Options::delete( 'lipsum__num_tags' );
 
 		}
 
