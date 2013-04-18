@@ -35,16 +35,22 @@ namespace Habari;
 
 			$ui = new FormUI( 'lipsum' );
 
-			$ui->append( 'text', 'num_posts', 'option:lipsum__num_posts', _t( 'Number of posts to have present:', 'Lipsum' ) );
-			$ui->num_posts->add_validator( 'validate_lipsum_numbers' );
+			$ui->append( FormControlText::create( 'num_posts', 'lipsum__num_posts' )
+				->add_validator( array( $this, 'validate_lipsum_numbers' ) )
+				->label( _t( 'Number of posts to have present:', 'Lipsum' ) )
+			);
 
-			$ui->append( 'text', 'num_comments', 'option:lipsum__num_comments', _t( 'Max number of comments for each post:', 'Lipsum' ) );
-			$ui->num_comments->add_validator( 'validate_lipsum_numbers' );
+			$ui->append( FormControlText::create( 'num_comments', 'lipsum__num_comments' )
+				->add_validator( array( $this, 'validate_lipsum_numbers' ) )
+				->label( _t( 'Maximum number of comments for each post:', 'Lipsum' ) )
+			);
 
-			$ui->append( 'text', 'num_tags', 'option:lipsum__num_tags', _t( 'Max number of tags for each post:', 'Lipsum' ) );
-			$ui->num_tags->add_validator( 'validate_lipsum_numbers' );
+			$ui->append( FormControlText::create( 'num_tags', 'lipsum__num_tags' )
+				->add_validator( array( $this, 'validate_lipsum_numbers' ) )
+				->label( _t( 'Maximum number of tags for each post:', 'Lipsum' ) )
+			);
 
-			$ui->append( 'submit', 'save', _t( 'Save' ) );
+			$ui->append( FormControlSubmit::create( 'save' ) )->set_caption( _t( 'Save' ) );
 
 			$ui->on_success( array( $this, 'updated_config' ) );
 
@@ -52,13 +58,13 @@ namespace Habari;
 
 		}
 
-		public function filter_validate_lipsum_numbers ( $valid, $value, $form, $container ) {
+		public function validate_lipsum_numbers ( $value, $control, $form ) {
 
 			if ( !is_numeric( $value ) || intval( $value ) != $value || $value < 0 ) {
-				$valid[] = _t('This value must be a non-negative integer.', 'Lipsum');
+				return array( _t( 'This value must be a non-negative integer.', 'Lipsum' ) );
 			}
 
-			return $valid;
+			return array();
 
 		}
 
