@@ -27,6 +27,8 @@ namespace Habari;
 			Options::delete( 'lipsum__num_comments' );
 			Options::delete( 'lipsum__num_tags' );
 
+			// delete the Lipsum user
+			$this->get_user()->delete();
 		}
 
 		public function configure ( ) {
