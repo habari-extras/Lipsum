@@ -194,7 +194,7 @@ namespace Habari;
 				'url' => 'http://example.com',
 				'content' => $this->get_comment_content(),
 				'status' => $this->get_comment_status(),
-				'type' => Comment::COMMENT,
+				'type' => Comment::type( 'comment' ),
 				'date' => DateTime::date_create( $time ),
 			) );
 
@@ -215,19 +215,19 @@ namespace Habari;
 
 			if ( $rand > 0 && $rand <= 5 ) {
 				// give approved the highest probability
-				return Comment::STATUS_APPROVED;
+				return Comment::status( 'approved' );
 			}
 			else if ( $rand > 5 && $rand <= 6 ) {
 				// next up is spam
-				return Comment::STATUS_SPAM;
+				return Comment::status( 'spam' );
 			}
 			else if ( $rand > 6 && $rand <= 8 ) {
 				// unapproved
-				return Comment::STATUS_UNAPPROVED;
+				return Comment::status( 'unapproved' );
 			}
 			else {
 				// finally, deleted
-				return Comment::STATUS_DELETED;
+				return Comment::status( 'deleted' );
 			}
 
 		}
