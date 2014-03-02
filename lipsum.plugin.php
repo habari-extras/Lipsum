@@ -1,5 +1,4 @@
 <?php
-namespace Habari;
 
 	class Lipsum extends Plugin {
 		
@@ -31,14 +30,20 @@ namespace Habari;
 		public function configure ( ) {
 			
 			$ui = new FormUI( 'lipsum' );
-			$ui->append(FormControlLabel::wrap(_t( 'Number of posts to have present:', __CLASS__), FormControlText::create('num_posts', 'option:lipsum__num_posts')));
+			
+			$ui->append( 'text', 'num_posts', 'option:lipsum__num_posts', _t( 'Number of posts to have present:', 'Lipsum' ) );
 			$ui->num_posts->add_validator( 'validate_lipsum_numbers' );
-			$ui->append(FormControlLabel::wrap(_t( 'Max number of comments for each post:', __CLASS__), FormControlText::create('num_comments', 'option:lipsum__num_posts')));
+			
+			$ui->append( 'text', 'num_comments', 'option:lipsum__num_comments', _t( 'Max number of comments for each post:', 'Lipsum' ) );
 			$ui->num_comments->add_validator( 'validate_lipsum_numbers' );
-			$ui->append(FormControlLabel::wrap(_t( 'Max number of tags for each post:', __CLASS__), FormControlText::create('num_tags', 'option:lipsum__num_posts')));
+			
+			$ui->append( 'text', 'num_tags', 'option:lipsum__num_tags', _t( 'Max number of tags for each post:', 'Lipsum' ) );
 			$ui->num_tags->add_validator( 'validate_lipsum_numbers' );
-			$ui->append(FormControlSubmit::create('save')->set_caption('Save'));
-			$ui->on_success( array( $this, 'updated_config' ) );		
+			
+			$ui->append( 'submit', 'save', _t( 'Save' ) );
+			
+			$ui->on_success( array( $this, 'updated_config' ) );
+			
 			$ui->out();
 			
 		}
@@ -149,7 +154,7 @@ namespace Habari;
 				'status' => $this->get_post_status(),
 				'content_type' => Post::type('entry'),
 				'tags' => $this->get_post_tags(),
-				'pubdate' => DateTime::date_create( $time ),
+				'pubdate' => HabariDateTime::date_create( $time ),
 			) );
 			
 			$post->info->lipsum = true;
@@ -183,8 +188,8 @@ namespace Habari;
 				'url' => 'http://example.com',
 				'content' => $this->get_comment_content(),
 				'status' => $this->get_comment_status(),
-				'type' => Comment::type('comment'),
-				'date' => DateTime::date_create( $time ),
+				'type' => Comment::COMMENT,
+				'date' => HabariDateTime::date_create( $time ),
 			) );
 			
 			$comment->info->lipsum = true;
@@ -204,19 +209,19 @@ namespace Habari;
 
 			if ( $rand > 0 && $rand <= 5 ) {
 				// give approved the highest probability
-				return Comment::status('approved');
+				return Comment::STATUS_APPROVED;
 			}
 			else if ( $rand > 5 && $rand <= 6 ) {
 				// next up is spam
-				return Comment::status('spam');
+				return Comment::STATUS_SPAM;
 			}
 			else if ( $rand > 6 && $rand <= 8 ) {
 				// unapproved
-				return Comment::status('unapproved');
+				return Comment::STATUS_UNAPPROVED;
 			}
 			else {
 				// finally, deleted
-				return Comment::status('deleted');
+				return Comment::STATUS_DELETED;
 			}
 			
 		}
@@ -389,7 +394,7 @@ namespace Habari;
 				$results = RemoteRequest::get_contents( $url );
 								
 				// parse the xml
-				$xml = new \SimpleXMLElement( $results );
+				$xml = new SimpleXMLElement( $results );
 				
 				$photos = array();
 				foreach ( $xml->photos->photo as $photo ) {
