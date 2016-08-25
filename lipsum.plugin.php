@@ -395,7 +395,7 @@
 			// if we haven't fetched thumbnails yet, do it
 			if ( !isset( $thumbs ) ) {
 
-				$licenses = '4,2,7';	// 4 = CC-Attribution, 2 = CC-Attribution-NonCommerical, 7 = no known copyright restrictions
+				$licenses = '4,2,7';	// 4 = CC-Attribution, 2 = CC-Attribution-NonCommercial, 7 = no known copyright restrictions
 				
 				$url = 'https://www.flickr.com/services/rest?method=flickr.photos.search&api_key=' . self::FLICKR_API_KEY . '&license=' . $licenses . '&per_page=25&tags=' . urlencode( implode(',', $tags ) );
 				
